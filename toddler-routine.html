@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Toddler Routine">
+<meta name="theme-color" content="#FF7B6B">
+<title>Toddler Daily Routine</title>
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlRvZGRsZXIgRGFpbHkgUm91dGluZSIsCiAgInNob3J0X25hbWUiOiAiUm91dGluZSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjRkZGOEVEIiwKICAidGhlbWVfY29sb3IiOiAiI0ZGN0I2QiIsCiAgImljb25zIjogW3sic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGRDYjNnOUlqQWdNQ0F4T1RJZ01Ua3lJajQ4Y21WamRDQjNhV1IwYUQwaU1Ua3lJaUJvWldsbmFIUTlJakU1TWlJZ2NuZzlJak15SWlCbWFXeHNQU0lqUmtZM1FqWkNJaTgrUEhSbGVIUWdlVDBpTVRNd0lpQjRQU0k1TmlJZ2RHVjRkQzFoYm1Ob2IzSTlJbTFwWkdSc1pTSWdabTl1ZEMxemFYcGxQU0l4TWpBaVB2Q2ZqSWc4TDNSbGVIUStQQzl6ZG1jKyIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSJ9XQp9">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #FFB830;
+    --sky: #5BC8F5;
+    --grass: #6DD47E;
+    --coral: #FF7B6B;
+    --lavender: #B98FE0;
+    --cream: #FFF8ED;
+    --dark: #2D2D3A;
+    --card-radius: 20px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+    background-image: 
+      radial-gradient(circle at 10% 10%, #FFE8A355 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, #B8E8FF44 0%, transparent 40%);
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+    animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  .header-emoji { font-size: 48px; display: block; margin-bottom: 8px; }
+
+  h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(28px, 7vw, 42px);
+    color: var(--coral);
+    letter-spacing: 1px;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: #888;
+    font-weight: 600;
+    margin-top: 6px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--sun);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .section {
+    margin-bottom: 28px;
+    animation: slideUp 0.5s ease both;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.05s; }
+  .section:nth-child(3) { animation-delay: 0.1s; }
+  .section:nth-child(4) { animation-delay: 0.15s; }
+  .section:nth-child(5) { animation-delay: 0.2s; }
+  .section:nth-child(6) { animation-delay: 0.25s; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .section-icon {
+    font-size: 22px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  .morning .section-icon { background: #FFF3CD; }
+  .morning .section-title { color: #E8960A; }
+  .active .section-icon { background: #D8F5DF; }
+  .active .section-title { color: #2E9E49; }
+  .nap .section-icon { background: #EAE0FF; }
+  .nap .section-title { color: #7B52D3; }
+  .afternoon .section-icon { background: #FFDDD9; }
+  .afternoon .section-title { color: #D94B39; }
+  .evening .section-icon { background: #D6F0FF; }
+  .evening .section-title { color: #1A90C8; }
+  .bedtime .section-icon { background: #E8DFFF; }
+  .bedtime .section-title { color: #6B3FBF; }
+
+  .card {
+    background: white;
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #F5F0E8;
+    position: relative;
+  }
+
+  .item:last-child { border-bottom: none; }
+
+  .time {
+    font-size: 12px;
+    font-weight: 800;
+    color: #aaa;
+    min-width: 52px;
+    padding-top: 2px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  .item-content { flex: 1; }
+
+  .item-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+
+  .item-note {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .item-emoji {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+  }
+
+  .energy-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 8px;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  .burn { background: #FFE5E2; color: #D94B39; }
+  .calm { background: #E2F5E8; color: #2E9E49; }
+  .creative { background: #F0E8FF; color: #7B52D3; }
+  .social { background: #FFF3D6; color: #C98A00; }
+
+  /* Activity picker styles */
+  .activity-slot {
+    border-bottom: 1px solid #F5F0E8;
+  }
+  .activity-slot:last-child { border-bottom: none; }
+
+  .activity-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .activity-header:active { background: #FAFAFA; }
+
+  .activity-label {
+    flex: 1;
+  }
+
+  .activity-title-row {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .activity-main-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+
+  .pick-hint {
+    font-size: 13px;
+    font-weight: 800;
+    color: white;
+    background: #FF7B6B;
+    border-radius: 20px;
+    padding: 6px 14px;
+    white-space: nowrap;
+    display: flex !important;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 6px rgba(255,123,107,0.35);
+    transition: background 0.2s;
+    flex-shrink: 0;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .pick-hint .chevron {
+    font-size: 11px;
+    transition: transform 0.25s;
+    display: inline-block;
+  }
+
+  .pick-hint.open {
+    background: #888;
+  }
+
+  .pick-hint.open .chevron { transform: rotate(180deg); }
+
+  .selected-activity {
+    font-size: 13px;
+    color: #2E9E49;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .activity-options {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 16px 10px 66px;
+  }
+
+  .activity-options.open { display: flex; }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1.5px solid #EEE;
+    background: #FAFAFA;
+    margin-bottom: 6px;
+    transition: all 0.15s;
+    text-align: left;
+  }
+
+  .option-btn:last-child { margin-bottom: 0; }
+
+  .option-btn.selected {
+    border-color: #4DC97A;
+    background: #F0FFF5;
+  }
+
+  .option-emoji { font-size: 18px; flex-shrink: 0; }
+
+  .option-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+
+  .option-desc {
+    font-size: 12px;
+    color: #aaa;
+    font-weight: 600;
+    margin-top: 1px;
+  }
+
+  .checkmark {
+    margin-left: auto;
+    font-size: 16px;
+    color: #4DC97A;
+    display: none;
+    flex-shrink: 0;
+  }
+
+  .option-btn.selected .checkmark { display: block; }
+
+  .tip-box {
+    background: linear-gradient(135deg, #FFF3CD, #FFE8A3);
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    box-shadow: 0 2px 8px rgba(255,184,48,0.2);
+    animation: slideUp 0.5s ease 0.35s both;
+  }
+
+  .tip-icon { font-size: 28px; flex-shrink: 0; }
+
+  .tip-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: #B87800;
+    margin-bottom: 4px;
+  }
+
+  .tip-text {
+    font-size: 13px;
+    color: #7A5500;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.85) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-emoji">🌈</span>
+  <h1>2-Year-Old Daily Routine</h1>
+  <p class="subtitle">Tap any activity to pick from 6 options</p>
+  <span class="badge">⚡ High Energy Edition</span>
+</header>
+
+<!-- MORNING -->
+<div class="section morning">
+  <div class="section-header">
+    <div class="section-icon">☀️</div>
+    <div class="section-title">Morning</div>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="time">6:30</div>
+      <div class="item-emoji">🌅</div>
+      <div class="item-content">
+        <div class="item-title">Wake Up & Cuddles</div>
+        <div class="item-note">Keep lights dim at first — ease into the day</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="time">6:45</div>
+      <div class="item-emoji">🍌</div>
+      <div class="item-content">
+        <div class="item-title">Breakfast</div>
+        <div class="item-note">Oatmeal, fruit, eggs — fuel for the day ahead</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="time">7:15</div>
+      <div class="item-emoji">👕</div>
+      <div class="item-content">
+        <div class="item-title">Get Dressed & Hygiene</div>
+        <div class="item-note">Let him pick between 2 outfits — builds independence</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVE MORNING -->
+<div class="section active">
+  <div class="section-header">
+    <div class="section-icon">🏃</div>
+    <div class="section-title">Active Play</div>
+  </div>
+  <div class="card">
+
+    <!-- Activity Picker: Outdoor -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('outdoor')">
+        <div class="time">7:30</div>
+        <div class="item-emoji">🌳</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Outdoor Activity</div>
+            <div class="pick-hint" id="hint-outdoor">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-outdoor">Tap to choose today's activity</div>
+          <span class="energy-tag burn">🔥 Energy Burn</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-outdoor">
+        <div class="option-btn" onclick="selectOption('outdoor', this, 'Park run & climbing')"><div class="option-emoji">🛝</div><div><div class="option-text">Park Run & Climbing</div><div class="option-desc">Free running, slides, swings</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('outdoor', this, 'Bubble chase')"><div class="option-emoji">🫧</div><div><div class="option-text">Bubble Chase</div><div class="option-desc">Blow bubbles, he pops them</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('outdoor', this, 'Garden water play')"><div class="option-emoji">🌊</div><div><div class="option-text">Garden Water Play</div><div class="option-desc">Cups, funnels, water table</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('outdoor', this, 'Scooter or balance bike')"><div class="option-emoji">🛵</div><div><div class="option-text">Scooter / Balance Bike</div><div class="option-desc">Around the block or driveway</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('outdoor', this, 'Nature walk & hunt')"><div class="option-emoji">🐛</div><div><div class="option-text">Nature Walk & Hunt</div><div class="option-desc">Find bugs, leaves, stones</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('outdoor', this, 'Ball games')"><div class="option-emoji">⚽</div><div><div class="option-text">Ball Games</div><div class="option-desc">Kick, throw, roll together</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+    <!-- Activity Picker: Structured -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('structured')">
+        <div class="time">9:00</div>
+        <div class="item-emoji">🎨</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Structured Activity</div>
+            <div class="pick-hint" id="hint-structured">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-structured">Tap to choose today's activity</div>
+          <span class="energy-tag creative">✨ Creative</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-structured">
+        <div class="option-btn" onclick="selectOption('structured', this, 'Finger painting')"><div class="option-emoji">🖐️</div><div><div class="option-text">Finger Painting</div><div class="option-desc">Large paper, washable paint</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('structured', this, 'Playdough')"><div class="option-emoji">🪸</div><div><div class="option-text">Playdough</div><div class="option-desc">Roll, squish, use cutters</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('structured', this, 'Building blocks')"><div class="option-emoji">🧱</div><div><div class="option-text">Building Blocks / Duplo</div><div class="option-desc">Free build or copy a shape</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('structured', this, 'Puzzles')"><div class="option-emoji">🧩</div><div><div class="option-text">Simple Puzzles</div><div class="option-desc">Chunky wooden knob puzzles</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('structured', this, 'Sticker book')"><div class="option-emoji">⭐</div><div><div class="option-text">Sticker Book</div><div class="option-desc">Peel and place — great for fine motor</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('structured', this, 'Sorting & pouring')"><div class="option-emoji">🪣</div><div><div class="option-text">Sorting & Pouring</div><div class="option-desc">Pasta, rice, cups — messy but calming</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="time">10:00</div>
+      <div class="item-emoji">🍎</div>
+      <div class="item-content">
+        <div class="item-title">Morning Snack</div>
+        <div class="item-note">Fruit, cheese, or crackers</div>
+      </div>
+    </div>
+
+    <!-- Activity Picker: Dance/Sensory -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('dance')">
+        <div class="time">10:15</div>
+        <div class="item-emoji">💃</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Dance / Sensory Play</div>
+            <div class="pick-hint" id="hint-dance">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-dance">Tap to choose today's activity</div>
+          <span class="energy-tag burn">🔥 Energy Burn</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-dance">
+        <div class="option-btn" onclick="selectOption('dance', this, 'Dance party')"><div class="option-emoji">🎵</div><div><div class="option-text">Dance Party</div><div class="option-desc">Nursery rhymes with actions</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('dance', this, 'Obstacle course')"><div class="option-emoji">🏠</div><div><div class="option-text">Indoor Obstacle Course</div><div class="option-desc">Cushions, tunnels, chairs to weave</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('dance', this, 'Sand play')"><div class="option-emoji">🏖️</div><div><div class="option-text">Sand Play</div><div class="option-desc">Sandbox or tray indoors</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('dance', this, 'Simon Says')"><div class="option-emoji">🙌</div><div><div class="option-text">Simon Says</div><div class="option-desc">Jump, spin, touch your nose!</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('dance', this, 'Balloon play')"><div class="option-emoji">🎈</div><div><div class="option-text">Balloon Play</div><div class="option-desc">Keep it in the air, bat it around</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('dance', this, 'Freeze dance')"><div class="option-emoji">🧊</div><div><div class="option-text">Freeze Dance</div><div class="option-desc">Dance then freeze when music stops</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NAP -->
+<div class="section nap">
+  <div class="section-header">
+    <div class="section-icon">😴</div>
+    <div class="section-title">Nap Time</div>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="time">11:30</div>
+      <div class="item-emoji">🍜</div>
+      <div class="item-content">
+        <div class="item-title">Lunch</div>
+        <div class="item-note">Warm filling meal — pasta, soup, sandwich</div>
+      </div>
+    </div>
+
+    <!-- Wind-down picker -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('winddown')">
+        <div class="time">12:00</div>
+        <div class="item-emoji">📖</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Wind-Down Activity</div>
+            <div class="pick-hint" id="hint-winddown">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-winddown">Tap to choose today's activity</div>
+          <span class="energy-tag calm">🌿 Calm Down</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-winddown">
+        <div class="option-btn" onclick="selectOption('winddown', this, 'Quiet book')"><div class="option-emoji">📚</div><div><div class="option-text">Quiet Book</div><div class="option-desc">One familiar board book together</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('winddown', this, 'Lullaby playlist')"><div class="option-emoji">🎶</div><div><div class="option-text">Lullaby Playlist</div><div class="option-desc">Same songs each day builds a sleep cue</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('winddown', this, 'Body squeeze')"><div class="option-emoji">🤗</div><div><div class="option-text">Body Squeeze</div><div class="option-desc">Firm gentle squeezes down arms and legs</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('winddown', this, 'Deep breaths together')"><div class="option-emoji">🌬️</div><div><div class="option-text">Deep Breaths Together</div><div class="option-desc">Smell the flowers, blow the candles</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('winddown', this, 'Soft toy cuddle time')"><div class="option-emoji">🧸</div><div><div class="option-text">Soft Toy Cuddle Time</div><div class="option-desc">Hand him comfort toy, dim the lights</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('winddown', this, 'Quiet puzzle')"><div class="option-emoji">🧩</div><div><div class="option-text">Quiet Puzzle</div><div class="option-desc">Simple 3-piece puzzle, low stimulation</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="time">12:15</div>
+      <div class="item-emoji">💤</div>
+      <div class="item-content">
+        <div class="item-title">Nap (1–2 hours)</div>
+        <div class="item-note">Still essential at this age — don't skip it!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AFTERNOON -->
+<div class="section afternoon">
+  <div class="section-header">
+    <div class="section-icon">⛅</div>
+    <div class="section-title">Afternoon</div>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="time">2:15</div>
+      <div class="item-emoji">🧃</div>
+      <div class="item-content">
+        <div class="item-title">Wake Up & Snack</div>
+        <div class="item-note">Give 15 min to wake up fully before activity</div>
+      </div>
+    </div>
+
+    <!-- Afternoon outdoor -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('aftoutdoor')">
+        <div class="time">2:30</div>
+        <div class="item-emoji">🚲</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Outdoor Free Play</div>
+            <div class="pick-hint" id="hint-aftoutdoor">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-aftoutdoor">Tap to choose today's activity</div>
+          <span class="energy-tag burn">🔥 Energy Burn</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-aftoutdoor">
+        <div class="option-btn" onclick="selectOption('aftoutdoor', this, 'Scooter ride')"><div class="option-emoji">🛵</div><div><div class="option-text">Scooter Ride</div><div class="option-desc">Around the block or at the park</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('aftoutdoor', this, 'Chalk drawing outside')"><div class="option-emoji">🖍️</div><div><div class="option-text">Chalk Drawing</div><div class="option-desc">Draw on the pavement, trace hands</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('aftoutdoor', this, 'Sandbox play')"><div class="option-emoji">🏖️</div><div><div class="option-text">Sandbox / Garden Digging</div><div class="option-desc">Spades, moulds, pouring</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('aftoutdoor', this, 'Ball games in garden')"><div class="option-emoji">⚽</div><div><div class="option-text">Ball Games in Garden</div><div class="option-desc">Kick, throw, target practice</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('aftoutdoor', this, 'Water play')"><div class="option-emoji">💦</div><div><div class="option-text">Water Play</div><div class="option-desc">Hose, sprinkler or water table</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('aftoutdoor', this, 'Nature walk')"><div class="option-emoji">🌿</div><div><div class="option-text">Nature Walk</div><div class="option-desc">Collect leaves, rocks, spot animals</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+    <!-- Independent play -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('indplay')">
+        <div class="time">4:00</div>
+        <div class="item-emoji">🧸</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Independent Play</div>
+            <div class="pick-hint" id="hint-indplay">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-indplay">Tap to choose today's activity</div>
+          <span class="energy-tag creative">✨ Creative</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-indplay">
+        <div class="option-btn" onclick="selectOption('indplay', this, 'Toy kitchen / pretend cooking')"><div class="option-emoji">🍳</div><div><div class="option-text">Pretend Cooking</div><div class="option-desc">Toy kitchen, mix and serve food</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('indplay', this, 'Toy animals / small world')"><div class="option-emoji">🦁</div><div><div class="option-text">Small World Play</div><div class="option-desc">Toy animals, farm, or vehicles</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('indplay', this, 'Colouring book')"><div class="option-emoji">🖍️</div><div><div class="option-text">Colouring Book</div><div class="option-desc">Thick crayons, toddler colouring pages</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('indplay', this, 'Duplo free build')"><div class="option-emoji">🧱</div><div><div class="option-text">Duplo Free Build</div><div class="option-desc">No instructions, just imagination</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('indplay', this, 'Pretend shop')"><div class="option-emoji">🛒</div><div><div class="option-text">Pretend Shop</div><div class="option-desc">Line up items to buy and sell</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('indplay', this, 'Toy cars / trains')"><div class="option-emoji">🚂</div><div><div class="option-text">Cars / Trains</div><div class="option-desc">Track building or free play</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+    <!-- Family time -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('family')">
+        <div class="time">4:45</div>
+        <div class="item-emoji">👨‍👩‍👧</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Family Connection Time</div>
+            <div class="pick-hint" id="hint-family">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-family">Tap to choose today's activity</div>
+          <span class="energy-tag social">💛 Social</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-family">
+        <div class="option-btn" onclick="selectOption('family', this, 'Read together')"><div class="option-emoji">📖</div><div><div class="option-text">Read Together</div><div class="option-desc">Let him pick the books</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('family', this, 'Baking / cooking together')"><div class="option-emoji">🍪</div><div><div class="option-text">Simple Baking Together</div><div class="option-desc">He can stir, pour, and taste!</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('family', this, 'Board game or simple card game')"><div class="option-emoji">🎲</div><div><div class="option-text">Simple Board Game</div><div class="option-desc">Orchard Toys or matching games</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('family', this, 'Puppet show')"><div class="option-emoji">🎭</div><div><div class="option-text">Puppet Show</div><div class="option-desc">Two hand puppets talking to each other</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('family', this, 'Singing songs together')"><div class="option-emoji">🎤</div><div><div class="option-text">Singing Together</div><div class="option-desc">Favourite nursery rhymes or action songs</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('family', this, 'Help with a simple chore')"><div class="option-emoji">🧺</div><div><div class="option-text">Help With a Simple Chore</div><div class="option-desc">Sort socks, wipe the table, tidy toys</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EVENING -->
+<div class="section evening">
+  <div class="section-header">
+    <div class="section-icon">🌙</div>
+    <div class="section-title">Evening</div>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="time">5:30</div>
+      <div class="item-emoji">🥦</div>
+      <div class="item-content">
+        <div class="item-title">Dinner</div>
+        <div class="item-note">Eat together — great for language development</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="time">6:15</div>
+      <div class="item-emoji">🛁</div>
+      <div class="item-content">
+        <div class="item-title">Bath Time</div>
+        <div class="item-note">Warm bath signals the body it's time to slow down</div>
+        <span class="energy-tag calm">🌿 Calm Down</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEDTIME -->
+<div class="section bedtime">
+  <div class="section-header">
+    <div class="section-icon">⭐</div>
+    <div class="section-title">Bedtime</div>
+  </div>
+  <div class="card">
+    <div class="item">
+      <div class="time">6:45</div>
+      <div class="item-emoji">🪥</div>
+      <div class="item-content">
+        <div class="item-title">Brush Teeth & PJs</div>
+        <div class="item-note">Same order every night — predictability is calming</div>
+      </div>
+    </div>
+
+    <!-- Bedtime story picker -->
+    <div class="activity-slot">
+      <div class="activity-header" onclick="togglePicker('story')">
+        <div class="time">7:00</div>
+        <div class="item-emoji">📚</div>
+        <div class="activity-label">
+          <div class="activity-title-row">
+            <div class="activity-main-title">Bedtime Story</div>
+            <div class="pick-hint" id="hint-story">Choose <span class="chevron">▼</span></div>
+          </div>
+          <div class="selected-activity" id="selected-story">Tap to choose tonight's story type</div>
+          <span class="energy-tag calm">🌿 Calm Down</span>
+        </div>
+      </div>
+      <div class="activity-options" id="options-story">
+        <div class="option-btn" onclick="selectOption('story', this, 'His favourite familiar book')"><div class="option-emoji">🐻</div><div><div class="option-text">Favourite Familiar Book</div><div class="option-desc">Predictability is calming — he'll join in</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('story', this, 'Make-up a story with him as hero')"><div class="option-emoji">🌟</div><div><div class="option-text">Made-Up Story</div><div class="option-desc">"Once there was a boy called [his name]…"</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('story', this, 'Counting book')"><div class="option-emoji">🔢</div><div><div class="option-text">Counting Book</div><div class="option-desc">Repetitive and naturally wind-down</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('story', this, 'Animal sounds book')"><div class="option-emoji">🐄</div><div><div class="option-text">Animal Sounds Book</div><div class="option-desc">Interactive, he can do the sounds</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('story', this, 'Goodnight-themed book')"><div class="option-emoji">🌙</div><div><div class="option-text">Goodnight-Themed Book</div><div class="option-desc">Goodnight Moon, Guess How Much I Love You</div></div><div class="checkmark">✓</div></div>
+        <div class="option-btn" onclick="selectOption('story', this, 'Torch story time')"><div class="option-emoji">🔦</div><div><div class="option-text">Torch Story Time</div><div class="option-desc">Read by a small lamp, room mostly dark</div></div><div class="checkmark">✓</div></div>
+      </div>
+    </div>
+
+    <div class="item">
+      <div class="time">7:20</div>
+      <div class="item-emoji">🌟</div>
+      <div class="item-content">
+        <div class="item-title">Goodnight Ritual</div>
+        <div class="item-note">One song, one hug, same phrase every night</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="time">7:30</div>
+      <div class="item-emoji">💜</div>
+      <div class="item-content">
+        <div class="item-title">Lights Out</div>
+        <div class="item-note">Nightlight + white noise works great for active toddlers</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tip-box">
+  <div class="tip-icon">💡</div>
+  <div>
+    <div class="tip-title">High Energy Tip</div>
+    <div class="tip-text">Tap any activity in the routine to swap it for one of 6 options — keeps the days fresh while the structure stays the same. High-energy toddlers thrive on routine but get bored with the same activity every day!</div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'toddler-routine-selections';
+
+  function loadSaved() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch { return {}; }
+  }
+
+  function saveSelection(id, label, index) {
+    try {
+      const data = loadSaved();
+      data[id] = { label, index };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch {}
+  }
+
+  function restoreSelections() {
+    const data = loadSaved();
+    for (const [id, val] of Object.entries(data)) {
+      const options = document.getElementById('options-' + id);
+      const selectedEl = document.getElementById('selected-' + id);
+      const hint = document.getElementById('hint-' + id);
+      if (!options || !selectedEl || !hint) continue;
+      const btns = options.querySelectorAll('.option-btn');
+      if (btns[val.index]) btns[val.index].classList.add('selected');
+      selectedEl.textContent = '✓ ' + val.label;
+      hint.innerHTML = '✓ Change <span class="chevron">&#9660;</span>';
+      hint.style.background = '#4DC97A';
+    }
+  }
+
+  function togglePicker(id) {
+    const options = document.getElementById('options-' + id);
+    const hint = document.getElementById('hint-' + id);
+    const isOpen = options.classList.contains('open');
+    document.querySelectorAll('.activity-options').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.pick-hint').forEach(el => el.classList.remove('open'));
+    if (!isOpen) {
+      options.classList.add('open');
+      hint.classList.add('open');
+    }
+  }
+
+  function selectOption(id, btn, label) {
+    const options = document.getElementById('options-' + id);
+    const btns = options.querySelectorAll('.option-btn');
+    btns.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('selected-' + id).textContent = '✓ ' + label;
+    saveSelection(id, label, Array.from(btns).indexOf(btn));
+    options.classList.remove('open');
+    const hint = document.getElementById('hint-' + id);
+    hint.classList.remove('open');
+    hint.innerHTML = '✓ Change <span class="chevron">&#9660;</span>';
+    hint.style.background = '#4DC97A';
+  }
+
+  document.addEventListener('DOMContentLoaded', restoreSelections);
+</script>
+</body>
+</html>
